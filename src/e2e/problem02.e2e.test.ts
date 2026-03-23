@@ -1,4 +1,4 @@
-import { StdinParser } from '../infrastructure/parsers/StdinParser/StdinParser';
+import { StdinParser } from '../infrastructure/parsers/StdinParser';
 import { CostFormatter } from '../infrastructure/formatters/CostFormatter';
 import { DeliveryFormatter } from '../infrastructure/formatters/DeliveryFormatter';
 import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/InMemoryOfferRepository';

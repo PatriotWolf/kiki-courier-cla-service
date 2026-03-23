@@ -2,7 +2,7 @@ import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDelive
 import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/InMemoryOfferRepository';
 import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CostFormatter } from '../infrastructure/formatters/CostFormatter';
-import { StdinParser } from '../infrastructure/parsers/StdinParser/StdinParser';
+import { StdinParser } from '../infrastructure/parsers/StdinParser';
 
 const runProblem01 = (lines: string[]): string[] => {
   const parser = new StdinParser();

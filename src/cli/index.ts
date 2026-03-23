@@ -1,11 +1,11 @@
 import * as readline from 'readline';
-import { StdinParser } from '../infrastructure/parsers/StdinParser/StdinParser';
+import { StdinParser } from '../infrastructure/parsers/StdinParser';
 import { CostFormatter } from '../infrastructure/formatters/CostFormatter';
 import { DeliveryFormatter } from '../infrastructure/formatters/DeliveryFormatter';
 import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/InMemoryOfferRepository';
 import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
-import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector/ShipmentSelector';
+import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector';
 import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler';
 
 const rl = readline.createInterface({ input: process.stdin });
