@@ -6,7 +6,7 @@ import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/
 import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
 import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector/ShipmentSelector';
-import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler/DeliveryScheduler';
+import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler';
 
 const rl = readline.createInterface({ input: process.stdin });
 const lines: string[] = [];
