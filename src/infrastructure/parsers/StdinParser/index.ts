@@ -1,1 +1,1 @@
-export { StdinParser, VehicleConfig } from './StdinParser';
+export { StdinParser } from './StdinParser';

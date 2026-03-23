@@ -1,3 +1,4 @@
+import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
 import { Package } from '../../../shared/models/Package/Package';
 
 export interface DeliveryResult {
@@ -6,10 +7,5 @@ export interface DeliveryResult {
 }
 
 export interface IDeliveryScheduler {
-  schedule(
-    packages: Package[],
-    numVehicles: number,
-    speed: number,
-    maxWeight: number,
-  ): DeliveryResult[];
+  schedule(packages: Package[], vehicleConfig: VehicleConfig): DeliveryResult[];
 }

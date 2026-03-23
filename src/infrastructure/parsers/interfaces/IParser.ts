@@ -1,5 +1,5 @@
+import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
 import { Package } from '../../../shared/models/Package/Package';
-import { VehicleConfig } from '../StdinParser';
 
 export interface IParser {
   parse(lines: string[]): ParsedInput;

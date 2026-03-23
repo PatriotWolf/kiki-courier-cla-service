@@ -6,16 +6,16 @@ import {
 import { Package } from '../../../shared/models/Package/Package';
 import { Vehicle } from '../interfaces/Vehicle';
 import { floorToTwoDecimals } from '../utils/math';
+import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
 
 export class DeliveryScheduler implements IDeliveryScheduler {
   constructor(private readonly selector: IShipmentSelector) {}
 
   schedule(
     packages: Package[],
-    numVehicles: number,
-    speed: number,
-    maxWeight: number,
+    vehicleConfig: VehicleConfig,
   ): DeliveryResult[] {
+    const { maxWeight, numVehicles, speed } = vehicleConfig;
     const vehicles = this.createVehicles(numVehicles);
     const remaining = [...packages];
     const results: DeliveryResult[] = [];
