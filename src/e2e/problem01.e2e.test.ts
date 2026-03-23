@@ -1,12 +1,12 @@
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost/CalculateDeliveryCost';
 import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/InMemoryOfferRepository/InMemoryOfferRepository';
 import { OfferService } from '../features/delivery-cost/services/OfferService';
-import { ConsoleFormatter } from '../infrastructure/formatters/ConsoleFormatter/ConsoleFormatter';
+import { CostFormatter } from '../infrastructure/formatters/CostFormatter';
 import { StdinParser } from '../infrastructure/parsers/StdinParser/StdinParser';
 
 const runProblem01 = (lines: string[]): string[] => {
   const parser = new StdinParser();
-  const formatter = new ConsoleFormatter();
+  const formatter = new CostFormatter();
   const offerRepo = new InMemoryOfferRepository();
   const offerService = new OfferService(offerRepo);
   const useCase = new CalculateDeliveryCost(offerService);

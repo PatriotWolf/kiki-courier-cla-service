@@ -1,17 +1,12 @@
 import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost/CalculateDeliveryCost';
 import { DeliveryResult } from '../../../features/delivery-schedule/interfaces/IDeliveryScheduler';
+import { IDeliveryFormatter } from '../interfaces/IDeliveryFormatter';
 
-export class ConsoleFormatter {
-  formatCost(result: CostResult): string {
-    return `${result.id} ${result.discount} ${result.totalCost}`;
-  }
-
-  formatCosts(results: CostResult[]): string[] {
-    return results.map((r) => this.formatCost(r));
-  }
+export class DeliveryFormatter implements IDeliveryFormatter {
   formatDelivery(cost: CostResult, delivery: DeliveryResult): string {
     return `${cost.id} ${cost.discount} ${cost.totalCost} ${delivery.deliveryTime}`;
   }
+
   formatDeliveries(
     costs: CostResult[],
     deliveries: DeliveryResult[],
