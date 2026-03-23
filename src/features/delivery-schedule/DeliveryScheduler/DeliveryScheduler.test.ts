@@ -1,35 +1,123 @@
+import { ShipmentSelector } from '../ShipmentSelector/ShipmentSelector';
+import { IDeliveryScheduler } from '../interfaces/IDeliveryScheduler';
+import { Package } from '../../../shared/models/Package/Package';
+import { DeliveryScheduler } from './DeliveryScheduler';
+import { floorToTwoDecimals } from '../utils/math';
+
 describe('DeliveryScheduler', () => {
+  let scheduler: IDeliveryScheduler;
+  let selector: ShipmentSelector;
+
+  beforeEach(() => {
+    selector = new ShipmentSelector();
+    scheduler = new DeliveryScheduler(selector);
+  });
+
   describe('vehicle pool', () => {
-    it.todo('creates correct number of vehicles');
-    it.todo('all vehicles start with availableAt zero');
+    it('all vehicles start with availableAt zero', () => {
+      const packages = [new Package('PKG1', 50, 30)];
+      const results = scheduler.schedule(packages, 1, 70, 200);
+      expect(results[0].deliveryTime).toBe(floorToTwoDecimals(30 / 70));
+    });
   });
 
   describe('vehicle return time', () => {
-    it.todo('vehicle return time is double the max distance divided by speed');
+    it('vehicle return time is double max distance divided by speed', () => {
+      const packages = [
+        new Package('PKG1', 150, 30), // 150kg — only one fits per trip
+        new Package('PKG2', 150, 60),
+        new Package('PKG3', 150, 90),
+      ];
+      // trip 1: PKG1 max dist 30, return = 2*30/70 = 0.85
+      // trip 2: PKG2 starts at 0.85, delivery = 0.85 + 60/70 = 1.71
+      // trip 3: PKG3 starts at 0.85 + 2*60/70 = 2.57
+      const results = scheduler.schedule(packages, 1, 70, 200);
+      const pkg2 = results.find((r) => r.id === 'PKG2')!;
+      const pkg3 = results.find((r) => r.id === 'PKG3')!;
+      expect(pkg2.deliveryTime).toBeGreaterThan(floorToTwoDecimals(30 / 70));
+      expect(pkg3.deliveryTime).toBeGreaterThan(pkg2.deliveryTime);
+    });
   });
 
   describe('vehicle availableAt carries forward', () => {
-    it.todo('vehicle availableAt uses its own time not zero');
+    it('vehicle availableAt uses its own time not zero', () => {
+      const packages = [
+        new Package('PKG1', 150, 30), // force single package per trip
+        new Package('PKG2', 150, 60),
+      ];
+      // trip 1: PKG1, return = 2*30/70 = 0.85
+      // trip 2: PKG2 starts at 0.85 not 0
+      const results = scheduler.schedule(packages, 1, 70, 200);
+      const pkg2 = results.find((r) => r.id === 'PKG2')!;
+      expect(pkg2.deliveryTime).toBeGreaterThan(floorToTwoDecimals(60 / 70));
+    });
   });
 
   describe('earliest vehicle selection', () => {
-    it.todo('assigns shipment to earliest available vehicle');
+    it('assigns shipment to earliest available vehicle', () => {
+      const packages = [
+        new Package('PKG1', 50, 30),
+        new Package('PKG2', 50, 125),
+        new Package('PKG3', 50, 100),
+      ];
+      const results = scheduler.schedule(packages, 2, 70, 200);
+      expect(results).toHaveLength(3);
+    });
   });
 
   describe('delivery time calculation', () => {
-    it.todo(
-      'delivery time is vehicle availableAt plus distance divided by speed',
-    );
-    it.todo('truncates to 2 decimal places not rounds');
-    it.todo('3.456 becomes 3.45 not 3.46');
-    it.todo('1.789 becomes 1.78 not 1.79');
+    it('delivery time is vehicle availableAt plus distance divided by speed', () => {
+      const packages = [new Package('PKG1', 50, 30)];
+      const results = scheduler.schedule(packages, 1, 70, 200);
+      expect(results[0].deliveryTime).toBe(floorToTwoDecimals(30 / 70));
+    });
+
+    it('truncates 3.456 to 3.45 not 3.46', () => {
+      expect(floorToTwoDecimals(3.456)).toBe(3.45);
+    });
+
+    it('truncates 1.789 to 1.78 not 1.79', () => {
+      expect(floorToTwoDecimals(1.789)).toBe(1.78);
+    });
   });
 
   describe('full sample output', () => {
-    it.todo('PKG1 50kg 30km returns delivery time 3.98');
-    it.todo('PKG2 75kg 125km returns delivery time 1.78');
-    it.todo('PKG3 175kg 100km returns delivery time 1.42');
-    it.todo('PKG4 110kg 60km returns delivery time 0.85');
-    it.todo('PKG5 155kg 95km returns delivery time 4.19');
+    const packages = [
+      new Package('PKG1', 50, 30, 'OFR001'),
+      new Package('PKG2', 75, 125, undefined),
+      new Package('PKG3', 175, 100, 'OFR003'),
+      new Package('PKG4', 110, 60, 'OFR002'),
+      new Package('PKG5', 155, 95, undefined),
+    ];
+
+    it('PKG1 50kg 30km returns delivery time 3.98', () => {
+      const results = scheduler.schedule(packages, 2, 70, 200);
+      const pkg = results.find((r) => r.id === 'PKG1')!;
+      expect(pkg.deliveryTime).toBe(3.98);
+    });
+
+    it('PKG2 75kg 125km returns delivery time 1.78', () => {
+      const results = scheduler.schedule(packages, 2, 70, 200);
+      const pkg = results.find((r) => r.id === 'PKG2')!;
+      expect(pkg.deliveryTime).toBe(1.78);
+    });
+
+    it('PKG3 175kg 100km returns delivery time 1.42', () => {
+      const results = scheduler.schedule(packages, 2, 70, 200);
+      const pkg = results.find((r) => r.id === 'PKG3')!;
+      expect(pkg.deliveryTime).toBe(1.42);
+    });
+
+    it('PKG4 110kg 60km returns delivery time 0.85', () => {
+      const results = scheduler.schedule(packages, 2, 70, 200);
+      const pkg = results.find((r) => r.id === 'PKG4')!;
+      expect(pkg.deliveryTime).toBe(0.85);
+    });
+
+    it('PKG5 155kg 95km returns delivery time 4.19', () => {
+      const results = scheduler.schedule(packages, 2, 70, 200);
+      const pkg = results.find((r) => r.id === 'PKG5')!;
+      expect(pkg.deliveryTime).toBe(4.19);
+    });
   });
 });
