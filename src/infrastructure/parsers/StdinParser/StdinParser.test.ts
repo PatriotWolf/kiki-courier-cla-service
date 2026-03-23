@@ -73,4 +73,9 @@ describe('StdinParser', () => {
       );
     });
   });
+
+  describe('vehicle configuration', () => {
+    it.todo('parses number of vehicles speed and max weight');
+    it.todo('throws when vehicle configuration line is missing');
+  });
 });
