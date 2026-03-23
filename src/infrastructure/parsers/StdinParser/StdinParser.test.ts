@@ -75,7 +75,29 @@ describe('StdinParser', () => {
   });
 
   describe('vehicle configuration', () => {
-    it.todo('parses number of vehicles speed and max weight');
-    it.todo('throws when vehicle configuration line is missing');
+    it('parses number of vehicles speed and max weight', () => {
+      const result = parser.parse([
+        '100 3',
+        'PKG1 5 5 OFR001',
+        'PKG2 15 5 OFR002',
+        'PKG3 10 100 OFR003',
+        '2 70 200',
+      ]);
+      expect(result.vehicleConfig).toBeDefined();
+      expect(result.vehicleConfig?.numVehicles).toBe(2);
+      expect(result.vehicleConfig?.speed).toBe(70);
+      expect(result.vehicleConfig?.maxWeight).toBe(200);
+    });
+
+    it('returns undefined vehicleConfig when vehicle line is missing', () => {
+      const result = parser.parse(['100 1', 'PKG1 5 5 OFR001']);
+      expect(result.vehicleConfig).toBeUndefined();
+    });
+
+    it('throws when vehicle configuration contains invalid numbers', () => {
+      expect(() =>
+        parser.parse(['100 1', 'PKG1 5 5 OFR001', 'abc 70 200']),
+      ).toThrow(InvalidInputError);
+    });
   });
 });

@@ -1,9 +1,16 @@
 import { InvalidInputError } from '../../../shared/errors/DomainErrors';
 import { Package } from '../../../shared/models/Package/Package';
 
+export interface VehicleConfig {
+  numVehicles: number;
+  speed: number;
+  maxWeight: number;
+}
+
 export interface ParsedInput {
   baseCost: number;
   packages: Package[];
+  vehicleConfig?: VehicleConfig;
 }
 
 export class StdinParser {
@@ -31,8 +38,9 @@ export class StdinParser {
     }
 
     const packages = this.parsePackages(lines, numPackages);
+    const vehicleConfig = this.parseVehicleConfig(lines, numPackages);
 
-    return { baseCost, packages };
+    return { baseCost, packages, vehicleConfig };
   }
 
   private parsePackages(lines: string[], numPackages: number): Package[] {
@@ -53,6 +61,33 @@ export class StdinParser {
     }
 
     return packages;
+  }
+
+  private parseVehicleConfig(
+    lines: string[],
+    numPackages: number,
+  ): VehicleConfig | undefined {
+    const vehicleLine = lines[numPackages + 1];
+    if (!vehicleLine) return undefined;
+
+    const parts = vehicleLine.trim().split(' ');
+    if (parts.length < 3) {
+      throw new InvalidInputError(
+        'Vehicle configuration must contain num vehicles speed and max weight',
+      );
+    }
+
+    const numVehicles = Number(parts[0]);
+    const speed = Number(parts[1]);
+    const maxWeight = Number(parts[2]);
+
+    if (isNaN(numVehicles) || isNaN(speed) || isNaN(maxWeight)) {
+      throw new InvalidInputError(
+        'Vehicle configuration contains invalid numbers',
+      );
+    }
+
+    return { numVehicles, speed, maxWeight };
   }
 
   private parseOfferCode(code: string | undefined): string | undefined {
