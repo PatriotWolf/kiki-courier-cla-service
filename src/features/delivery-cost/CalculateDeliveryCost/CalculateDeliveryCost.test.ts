@@ -1,4 +1,4 @@
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { IOfferService } from '../interfaces/IOfferService';
 import { InMemoryOfferRepository } from '../repositories/InMemoryOfferRepository';
 import { OfferService } from '../services/OfferService';

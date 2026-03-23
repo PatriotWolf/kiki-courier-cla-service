@@ -1,4 +1,4 @@
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { IOfferService } from '../interfaces/IOfferService';
 import { CostResult } from './interfaces/CostResult';
 import { calculateRawCost } from './utils/calculate-raw-cost';

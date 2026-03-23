@@ -1,6 +1,6 @@
 // NOTE: See ShipmentSelector.md for combo algorithm explanation that been used here.
 
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { IShipmentSelector } from '../interfaces/IShipmentSelector';
 
 export class ShipmentSelector implements IShipmentSelector {

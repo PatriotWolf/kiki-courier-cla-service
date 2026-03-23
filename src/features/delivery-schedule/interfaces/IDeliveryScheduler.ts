@@ -1,5 +1,5 @@
 import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 
 export interface DeliveryResult {
   id: string;

@@ -1,6 +1,6 @@
 import { InvalidInputError } from '../../../shared/errors/DomainErrors';
 import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { IParser, ParsedInput } from '../interfaces/IParser';
 
 export class StdinParser implements IParser {

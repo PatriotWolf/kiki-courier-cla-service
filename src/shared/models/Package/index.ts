@@ -1,1 +1,1 @@
-export {} from './Package';
+export { Package } from './Package';

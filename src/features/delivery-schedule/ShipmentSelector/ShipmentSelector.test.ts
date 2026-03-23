@@ -1,4 +1,4 @@
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { ShipmentSelector } from './ShipmentSelector';
 
 describe('ShipmentSelector', () => {

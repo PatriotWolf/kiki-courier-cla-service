@@ -1,6 +1,6 @@
 import { ShipmentSelector } from '../ShipmentSelector';
 import { IDeliveryScheduler } from '../interfaces/IDeliveryScheduler';
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { DeliveryScheduler } from './DeliveryScheduler';
 import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
 import { floorToTwoDecimals } from '../utils/math';

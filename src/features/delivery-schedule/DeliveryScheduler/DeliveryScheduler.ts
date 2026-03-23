@@ -3,7 +3,7 @@ import {
   IDeliveryScheduler,
   DeliveryResult,
 } from '../interfaces/IDeliveryScheduler';
-import { Package } from '../../../shared/models/Package/Package';
+import { Package } from '../../../shared/models/Package';
 import { Vehicle } from '../interfaces/Vehicle';
 import { floorToTwoDecimals } from '../utils/math';
 import { VehicleConfig } from '../../../shared/interfaces/VechicleConfig';
