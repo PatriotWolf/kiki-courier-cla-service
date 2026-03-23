@@ -32,4 +32,8 @@ describe('ConsoleFormatter', () => {
       ]);
     });
   });
+  describe('problem 02 output', () => {
+    it.todo('formats package id discount total cost and delivery time');
+    it.todo('formats multiple results with delivery time in order');
+  });
 });
