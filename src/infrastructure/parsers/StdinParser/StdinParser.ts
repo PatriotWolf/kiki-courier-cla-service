@@ -1,5 +1,6 @@
 import { InvalidInputError } from '../../../shared/errors/DomainErrors';
 import { Package } from '../../../shared/models/Package/Package';
+import { IParser } from '../interfaces/IParser';
 
 export interface VehicleConfig {
   numVehicles: number;
@@ -13,7 +14,7 @@ export interface ParsedInput {
   vehicleConfig?: VehicleConfig;
 }
 
-export class StdinParser {
+export class StdinParser implements IParser {
   parse(lines: string[]): ParsedInput {
     if (!lines || lines.length === 0) {
       throw new InvalidInputError('Input cannot be empty');
