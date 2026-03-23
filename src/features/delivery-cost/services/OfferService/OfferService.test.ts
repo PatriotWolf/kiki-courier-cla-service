@@ -1,5 +1,5 @@
 import { IOfferService } from '../../interfaces/IOfferService';
-import { InMemoryOfferRepository } from '../../repositories/InMemoryOfferRepository/InMemoryOfferRepository';
+import { InMemoryOfferRepository } from '../../repositories/InMemoryOfferRepository';
 import { OfferService } from './OfferService';
 
 describe('OfferService', () => {

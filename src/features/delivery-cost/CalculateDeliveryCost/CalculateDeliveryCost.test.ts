@@ -1,6 +1,6 @@
 import { Package } from '../../../shared/models/Package/Package';
 import { IOfferService } from '../interfaces/IOfferService';
-import { InMemoryOfferRepository } from '../repositories/InMemoryOfferRepository/InMemoryOfferRepository';
+import { InMemoryOfferRepository } from '../repositories/InMemoryOfferRepository';
 import { OfferService } from '../services/OfferService';
 import { CalculateDeliveryCost } from './CalculateDeliveryCost';
 

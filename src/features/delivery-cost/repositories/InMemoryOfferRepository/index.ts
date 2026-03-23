@@ -1,0 +1,1 @@
+export { InMemoryOfferRepository } from './InMemoryOfferRepository';
