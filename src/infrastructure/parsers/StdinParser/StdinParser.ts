@@ -1,17 +1,11 @@
 import { InvalidInputError } from '../../../shared/errors/DomainErrors';
 import { Package } from '../../../shared/models/Package/Package';
-import { IParser } from '../interfaces/IParser';
+import { IParser, ParsedInput } from '../interfaces/IParser';
 
 export interface VehicleConfig {
   numVehicles: number;
   speed: number;
   maxWeight: number;
-}
-
-export interface ParsedInput {
-  baseCost: number;
-  packages: Package[];
-  vehicleConfig?: VehicleConfig;
 }
 
 export class StdinParser implements IParser {
