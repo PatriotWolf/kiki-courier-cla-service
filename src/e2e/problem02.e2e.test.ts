@@ -4,7 +4,7 @@ import { DeliveryFormatter } from '../infrastructure/formatters/DeliveryFormatte
 import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/InMemoryOfferRepository';
 import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
-import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector/ShipmentSelector';
+import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector';
 import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler';
 
 const runProblem02 = (lines: string[]): string[] => {

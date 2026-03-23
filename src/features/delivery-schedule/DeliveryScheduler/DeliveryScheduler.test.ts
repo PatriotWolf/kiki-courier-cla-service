@@ -1,4 +1,4 @@
-import { ShipmentSelector } from '../ShipmentSelector/ShipmentSelector';
+import { ShipmentSelector } from '../ShipmentSelector';
 import { IDeliveryScheduler } from '../interfaces/IDeliveryScheduler';
 import { Package } from '../../../shared/models/Package/Package';
 import { DeliveryScheduler } from './DeliveryScheduler';
