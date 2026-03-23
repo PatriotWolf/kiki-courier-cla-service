@@ -1,5 +1,5 @@
 import { CostFormatter } from './CostFormatter';
-import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost/CalculateDeliveryCost';
+import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost';
 import { ICostFormatter } from '../interfaces/ICostFormatter';
 
 describe('CostFormatter', () => {

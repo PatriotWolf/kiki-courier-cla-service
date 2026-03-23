@@ -1,4 +1,4 @@
-import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost/CalculateDeliveryCost';
+import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost';
 import { ICostFormatter } from '../interfaces/ICostFormatter';
 
 export class CostFormatter implements ICostFormatter {

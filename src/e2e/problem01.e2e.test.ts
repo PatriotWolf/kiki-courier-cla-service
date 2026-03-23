@@ -1,4 +1,4 @@
-import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost/CalculateDeliveryCost';
+import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
 import { InMemoryOfferRepository } from '../features/delivery-cost/repositories/InMemoryOfferRepository/InMemoryOfferRepository';
 import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CostFormatter } from '../infrastructure/formatters/CostFormatter';

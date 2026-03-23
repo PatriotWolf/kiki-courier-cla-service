@@ -1,4 +1,4 @@
-import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost/CalculateDeliveryCost';
+import { CostResult } from '../../../features/delivery-cost/CalculateDeliveryCost';
 
 export interface ICostFormatter {
   formatCost(result: CostResult): string;

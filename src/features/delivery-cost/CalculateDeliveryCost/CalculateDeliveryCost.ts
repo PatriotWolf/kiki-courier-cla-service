@@ -1,12 +1,7 @@
 import { Package } from '../../../shared/models/Package/Package';
 import { IOfferService } from '../interfaces/IOfferService';
+import { CostResult } from './interfaces/CostResult';
 import { calculateRawCost } from './utils/calculate-raw-cost';
-
-export interface CostResult {
-  id: string;
-  discount: number;
-  totalCost: number;
-}
 
 export class CalculateDeliveryCost {
   constructor(private readonly offerService: IOfferService) {}
