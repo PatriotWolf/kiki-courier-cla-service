@@ -2,13 +2,18 @@
   "name": "kiki-courier",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "kiki-courier": "./dist/cli/index.js"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
-    "start": "ts-node src/cli/index.ts"
+    "start": "ts-node src/cli/index.ts",
+    "build": "tsc",
+    "dev": "ts-node src/cli/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +37,7 @@
     "typescript-eslint": "^8.57.1"
   },
   "dependencies": {
+    "commander": "^14.0.3",
     "winston": "^3.19.0"
   }
 }
