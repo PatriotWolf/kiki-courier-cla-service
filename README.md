@@ -9,7 +9,7 @@ for Kiki's courier service in the city of Koriko.
 
 ### Prerequisites
 
-- Node.js (>= 18 recommended)
+- Node.js (>= 22.13.0)
 - npm (comes with Node.js)
 
 ### Setup
@@ -20,27 +20,95 @@ cd kiki-courier-cla-service
 npm install
 ```
 
-## Running the Application via Command Line
+### Build and Link
 
 ```bash
-# run all tests
-npm test
+npm run build
+npm link
+```
 
-# pipe input for problem 1, or change the input to have other desired results
-echo "100 3
-PKG1 5 5 OFR001
-PKG2 15 5 OFR002
-PKG3 10 100 OFR003" | npm start
+---
 
-# pipe input for problem 2, or change the input to have other desired results
-echo "100 5
-PKG1 50 30 OFR001
-PKG2 75 125 OFR008
-PKG3 175 100 OFR003
-PKG4 110 60 OFR002
-PKG5 155 95 NA
-2 70 200" | npm start
+## Running the Application
 
+### As a global command (after npm link)
+
+```bash
+# help
+kiki-courier --help
+
+# version
+kiki-courier --version
+
+# problem 01
+printf "100 3\nPKG1 5 5 OFR001\nPKG2 15 5 OFR002\nPKG3 10 100 OFR003" | kiki-courier --problem 1
+
+# problem 02
+printf "100 5\nPKG1 50 30 OFR001\nPKG2 75 125 OFR008\nPKG3 175 100 OFR003\nPKG4 110 60 OFR002\nPKG5 155 95 NA\n2 70 200" | kiki-courier --problem 2
+
+# with debug logs
+printf "100 3\nPKG1 5 5 OFR001\nPKG2 15 5 OFR002\nPKG3 10 100 OFR003" | kiki-courier --problem 1 --debug
+```
+
+### Via npm start (development)
+
+```bash
+# problem 01
+printf "100 3\nPKG1 5 5 OFR001\nPKG2 15 5 OFR002\nPKG3 10 100 OFR003" | npm start -- --problem 1
+
+# problem 02
+printf "100 5\nPKG1 50 30 OFR001\nPKG2 75 125 OFR008\nPKG3 175 100 OFR003\nPKG4 110 60 OFR002\nPKG5 155 95 NA\n2 70 200" | npm start -- --problem 2
+```
+
+### Expected Output
+
+**Problem 01**
+
+```
+PKG1 0 175
+PKG2 0 275
+PKG3 35 665
+```
+
+**Problem 02**
+
+```
+PKG1 0 750 3.98
+PKG2 0 1475 1.78
+PKG3 0 2350 1.42
+PKG4 105 1395 0.85
+PKG5 0 2125 4.19
+```
+
+---
+
+## Testing
+
+```bash
+npm test                  # run all tests
+npm run test:watch        # watch mode during development
+npm run test:coverage     # coverage report
+npm run test:ci           # ci mode with coverage
+```
+
+---
+
+## Logging
+
+Logs are written to `logs/combined.log` and `logs/error.log`.
+
+```bash
+# enable debug logs via flag
+kiki-courier --problem 1 --debug
+
+# enable debug logs via environment variable
+LOG_LEVEL=debug npm start -- --problem 1
+
+# view combined logs
+cat logs/combined.log
+
+# view error logs
+cat logs/error.log
 ```
 
 ---
@@ -55,7 +123,7 @@ where concrete dependencies are wired together.
 
 ```
 src/
-  shared/          → models, interfaces, utils, errors
+  shared/          → models, interfaces, utils, errors, logger
   features/
     delivery-cost/     → Problem 01 logic
     delivery-schedule/ → Problem 02 logic
@@ -116,6 +184,11 @@ Nothing in features knows about cli.
   Only the final delivery time shown to the user is floored.
   Prevents precision loss compounding across trips.
 
+- **Structured logging with Winston**
+  All key operations are logged with structured metadata.
+  Log level controllable via --debug flag or LOG_LEVEL env var.
+  Silent during test runs via NODE_ENV=test.
+
 ---
 
 ## Trade-offs & Scalability Considerations
@@ -131,10 +204,14 @@ Nothing in features knows about cli.
   in a production environment. IOfferRepository interface
   makes this swap trivial without touching business logic.
 
-- **Observability is minimal**
-  Current implementation lacks structured logging and
-  traceability. For production introduce centralized logging
-  and request-level correlation to support auditing and
-  debugging.
+- **Observability is production-ready for a CLI scope**
+  Winston logger provides structured logging with file and
+  console transports. For a distributed system introduce
+  centralized log aggregation and request-level correlation
+  identifiers.
 
 ---
+
+## AI Tool Disclosure
+
+See DISCLOSURE.md
