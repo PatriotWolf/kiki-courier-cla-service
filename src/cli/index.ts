@@ -7,6 +7,7 @@ import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
 import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector';
 import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler';
+import { logger } from '../shared/logger';
 
 const rl = readline.createInterface({ input: process.stdin });
 const lines: string[] = [];
@@ -14,35 +15,51 @@ const lines: string[] = [];
 rl.on('line', (line) => lines.push(line.trim()));
 
 rl.on('close', () => {
-  // infrastructure
-  const parser = new StdinParser();
-  const costFormatter = new CostFormatter();
-  const deliveryFormatter = new DeliveryFormatter();
+  logger.debug('cli: input received', { lineCount: lines.length });
 
-  // delivery cost
-  const offerRepo = new InMemoryOfferRepository();
-  const offerService = new OfferService(offerRepo);
-  const calculateDeliveryCost = new CalculateDeliveryCost(offerService);
+  try {
+    // infrastructure
+    const parser = new StdinParser();
+    const costFormatter = new CostFormatter();
+    const deliveryFormatter = new DeliveryFormatter();
 
-  // delivery schedule
-  const selector = new ShipmentSelector();
-  const scheduler = new DeliveryScheduler(selector);
+    // delivery cost
+    const offerRepo = new InMemoryOfferRepository();
+    const offerService = new OfferService(offerRepo);
+    const calculateDeliveryCost = new CalculateDeliveryCost(offerService);
 
-  // parse
-  const { baseCost, packages, vehicleConfig } = parser.parse(lines);
+    // delivery schedule
+    const selector = new ShipmentSelector();
+    const scheduler = new DeliveryScheduler(selector);
 
-  // calculate costs
-  const costResults = calculateDeliveryCost.execute(baseCost, packages);
+    // parse
+    const { baseCost, packages, vehicleConfig } = parser.parse(lines);
 
-  // problem 01
-  if (!vehicleConfig) {
-    costFormatter.formatCosts(costResults).forEach((line) => console.log(line));
-    return;
+    // calculate costs
+    const costResults = calculateDeliveryCost.execute(baseCost, packages);
+
+    // problem 01
+    if (!vehicleConfig) {
+      logger.info('cli: running problem 01');
+      costFormatter
+        .formatCosts(costResults)
+        .forEach((line) => console.log(line));
+      return;
+    }
+
+    // problem 02
+    logger.info('cli: running problem 02');
+    const deliveryResults = scheduler.schedule(packages, vehicleConfig);
+    deliveryFormatter
+      .formatDeliveries(costResults, deliveryResults)
+      .forEach((line) => console.log(line));
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error('cli: unexpected error', {
+        message: error.message,
+        stack: error.stack,
+      });
+    }
+    process.exit(1);
   }
-
-  // problem 02
-  const deliveryResults = scheduler.schedule(packages, vehicleConfig);
-  deliveryFormatter
-    .formatDeliveries(costResults, deliveryResults)
-    .forEach((line) => console.log(line));
 });
