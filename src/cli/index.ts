@@ -7,6 +7,7 @@ import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
 import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector';
 import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler';
+import { logger } from '../shared/logger';
 
 const rl = readline.createInterface({ input: process.stdin });
 const lines: string[] = [];
@@ -36,11 +37,13 @@ rl.on('close', () => {
 
   // problem 01
   if (!vehicleConfig) {
+    logger.info('cli: running problem 01');
     costFormatter.formatCosts(costResults).forEach((line) => console.log(line));
     return;
   }
 
   // problem 02
+  logger.info('cli: running problem 02');
   const deliveryResults = scheduler.schedule(packages, vehicleConfig);
   deliveryFormatter
     .formatDeliveries(costResults, deliveryResults)
