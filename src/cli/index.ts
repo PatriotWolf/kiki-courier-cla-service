@@ -10,7 +10,7 @@ import { OfferService } from '../features/delivery-cost/services/OfferService';
 import { CalculateDeliveryCost } from '../features/delivery-cost/CalculateDeliveryCost';
 import { ShipmentSelector } from '../features/delivery-schedule/ShipmentSelector';
 import { DeliveryScheduler } from '../features/delivery-schedule/DeliveryScheduler';
-import { logger } from '../shared/logger';
+import { logger, setLogLevel } from '../shared/logger';
 
 const program = new Command();
 
@@ -26,7 +26,7 @@ const options = program.opts();
 
 // set log level from flag
 if (options.debug) {
-  process.env.LOG_LEVEL = 'debug';
+  setLogLevel('debug');
 }
 
 const problem = Number(options.problem);
